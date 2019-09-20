@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="Sad Trombone Sound Effect  Wah Wah Wah FAIL Sound  Fail Horns_data" version="1.3.0" audacityversion="2.3.2" sel0="0.0000000000" sel1="0.0000000000" vpos="0" h="0.0000000000" zoom="92.5130208333" rate="44100.0" snapto="off" selectionformat="hh:mm:ss + milliseconds" frequencyformat="Hz" bandwidthformat="octaves">
+	<tags>
+		<tag name="TITLE" value="Wah Wah Wah FAIL Sound - Fail Horns"/>
+		<tag name="COMMENTS" value="converted by convert2mp3.net"/>
+		<tag name="ARTIST" value="Sad Trombone Sound Effect"/>
+	</tags>
+	<wavetrack name="Sad Trombone Sound Effect  Wah Wah Wah FAIL Sound  Fail Horns" channel="0" linked="1" mute="0" solo="0" height="150" minimized="0" isSelected="1" rate="44100" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.00000000" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="151587">
+				<waveblock start="0">
+					<simpleblockfile filename="e0808aa7.au" len="151587" min="-0.890276" max="0.928557" rms="0.17758"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="Sad Trombone Sound Effect  Wah Wah Wah FAIL Sound  Fail Horns" channel="1" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="1" rate="44100" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.00000000" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="151587">
+				<waveblock start="0">
+					<simpleblockfile filename="e0808361.au" len="151587" min="-0.890276" max="0.928557" rms="0.17758"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+</project>
