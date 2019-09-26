@@ -5,13 +5,13 @@ using UnityEngine;
 
 public static class FileIOWrapper
 {
-    private const string SAVE_FILE_NAME = "Phased.bytes";
+    private const string SAVE_FILE_NAME = "Phazed.bytes";
 
     private static string AppVersionFilePath { get { return $"{Application.persistentDataPath}/{SAVE_FILE_NAME}"; } }
 
     public static SaveData LoadGameFromLocalStore()
     {
-        if (!File.Exists(AppVersionFilePath)) return new SaveData(){Difficulty =  Difficulty.Normal, IsSoundOn = true, LastLevelUnlocked = 0};
+        if (!File.Exists(AppVersionFilePath)) return new SaveData(){Difficulty =  Difficulty.Normal, IsSoundOn = true, LastLevelUnlocked = 1};
 
         FileStream fs = null;
         try

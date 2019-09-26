@@ -81,8 +81,11 @@ namespace Assets.Scripts
 
         private void Awake()
         {
+           
             _saveData = FileIOWrapper.LoadGameFromLocalStore();
-            _saveData.LastLevelUnlocked = 24;            
+            if(_saveData.LastLevelUnlocked == 0)
+                _saveData.LastLevelUnlocked = 1;
+            _saveData.LastLevelUnlocked = 24;
             if (_instance != null && _instance != this)
             {
                 Destroy(this.gameObject);
@@ -100,7 +103,7 @@ namespace Assets.Scripts
             _player.gameObject.SetActive(false);
             _player.OnPlayerDied += Player_OnPlayerDied;
             _player.OnLevelComplete += Player_OnLevelComplete;
-            _currentLevel = 1;
+            _currentLevel = _saveData.LastLevelUnlocked;
             PhasedDisabledTime = 2.5f;
             _appVersion.text = $"V - {Application.version}";
         }
@@ -211,11 +214,11 @@ namespace Assets.Scripts
         {
             switch (Difficulty){
                 case Difficulty.Easy:
-                    return 2.6f;
+                    return 2.3f;
                 case Difficulty.Normal:
-                    return 2.2f;
+                    return 2.0f;
                 case Difficulty.Hard:
-                    return 1.7f;
+                    return 1.5f;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -279,7 +282,7 @@ namespace Assets.Scripts
 
         private void LevelComplete()
         {
-            StartCoroutine(ResetPlayer());
+            //StartCoroutine(ResetPlayer());
             _currentLevel++;
             if (_currentLevel >= _saveData.LastLevelUnlocked)
             {
