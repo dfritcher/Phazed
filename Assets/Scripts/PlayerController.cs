@@ -117,10 +117,10 @@ namespace Assets.Scripts
             }
             if (_isGrounded && _isJumping)
             {
-                _isJumping = false;
-                LookForward();
                 if (GameManager.PlayAudio)
                     _landSound.Play();
+                _isJumping = false;
+                LookForward();                
             }            
         }
 
@@ -221,13 +221,12 @@ namespace Assets.Scripts
         {
             if (!_isGrounded)
                 return;
-            _isGrounded = false;
-            
-            _hasJumped = false;
-            _rb.velocity += Vector2.up * Jumpforce;
-            LookUp();
             if(GameManager.PlayAudio)
                 _jumpSound.Play();
+            _isGrounded = false;            
+            _hasJumped = false;
+            _rb.velocity += Vector2.up * Jumpforce;
+            LookUp();            
         }
         #endregion
 

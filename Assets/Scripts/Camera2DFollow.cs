@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 public class Camera2DFollow : MonoBehaviour
 {
+    #region Fields, Properties
     public Transform target;
     public float smoothSpeed = 0.125f; //value between 0 and 1, closer to 1 goes faster 
     public float damping = 1;
@@ -22,8 +23,9 @@ public class Camera2DFollow : MonoBehaviour
 
     // boolean value to be set between levels to know when to start moving the player.
     public bool Initialized { get; set; }
+    #endregion Fields, Properties (end)
 
-
+    #region Methods
     // Use this for initialization
     private void Start()
     {
@@ -74,25 +76,17 @@ public class Camera2DFollow : MonoBehaviour
 
         if (MoveCameraUp || MoveCameraDown)
         {
-            //if (MoveCameraUp)
-            //    Debug.Log("<color=#FFF700> Move UP is true.</color>");
-            //if (MoveCameraDown)
-            //    Debug.Log("<color=#06A250> Move DOWN is true.</color>");
             transform.position = new Vector3(transform.position.x, Mathf.Lerp(transform.position.y, CameraTargetPos.y, smoothSpeed), transform.position.z);
         }
         //If we are moving the camera check if we have reached our destination.
         if (MoveCameraUp && transform.position.y >= CameraTargetPos.y)
         {
             MoveCameraUp = false;
-            //Debug.Log(string.Format("<color=#FF0022> Resetting MoveCameraUp Flag.</color>"));
         }
         if (MoveCameraDown && transform.position.y <= CameraTargetPos.y)
         {
             MoveCameraDown = false;
-            //Debug.Log(string.Format("<color=#FF0022> Resetting MoveCameraDown Flag.</color>"));
         }
-        //Debug.Log(string.Format("<color=#FFF700> Player Position: {0}</color>", target.position.y));
-        //Debug.Log(string.Format("<color=#06A250> Camera Position: {0}</color>", _currentCameraYPos));
 
         //Keep the camera just to the right of where the player is
         transform.position = new Vector3(target.position.x + 10, transform.position.y, transform.position.z);
@@ -102,4 +96,5 @@ public class Camera2DFollow : MonoBehaviour
     {
         transform.position = _cameraStartPos;
     }
+    #endregion Methods (end)
 }

@@ -22,13 +22,22 @@ namespace Assets.Scripts
 
         [SerializeField]
         private GameObject _shortCutDeathCanvas = null;
+        [SerializeField]
+        private GameObject _fullVersionCanvas = null;
 
         [SerializeField]
         private Camera2DFollow _cameraFollow = null;
 
         [SerializeField]
         private TextMeshProUGUI _appVersion = null;
-            
+
+        [Header("Game Related"), Space(8)]
+        [SerializeField]
+        private bool _isDemo = false;
+        [SerializeField]
+        private int _highestLevelInDemo = 6;
+        public static bool IsDemo { get { return Instance._isDemo; } }
+
         [Header("Player Related"), Space(8)]
         [SerializeField]
         private PlayerController _player = null;
@@ -38,6 +47,7 @@ namespace Assets.Scripts
         [Header("Level Related"), Space(8)]
         [SerializeField]
         private Level[] _levels = null;
+        
         [SerializeField]
         private Transform _levelSelectParent = null;
         [SerializeField]
@@ -72,6 +82,10 @@ namespace Assets.Scripts
         {
             get { return _saveData?.Difficulty ?? Difficulty.Normal; }
         }
+
+        [SerializeField]
+        private float _musicVolume;
+        public float MusicVolume{get {return _musicVolume;}}
         private static SaveData _saveData = null;
        
         #endregion
@@ -80,12 +94,10 @@ namespace Assets.Scripts
         #region Unity Hooks
 
         private void Awake()
-        {
-           
+        {           
             _saveData = FileIOWrapper.LoadGameFromLocalStore();
             if(_saveData.LastLevelUnlocked == 0)
-                _saveData.LastLevelUnlocked = 1;
-            _saveData.LastLevelUnlocked = 24;
+                _saveData.LastLevelUnlocked = 1;           
             if (_instance != null && _instance != this)
             {
                 Destroy(this.gameObject);
@@ -94,6 +106,10 @@ namespace Assets.Scripts
             {
                 _instance = this;
             }
+
+#if UNITY_EDITOR
+            _saveData.LastLevelUnlocked = 30;
+#endif
         }
 
         private void Start()
@@ -168,6 +184,11 @@ namespace Assets.Scripts
         {
             ReturnAllToPool();
         }
+
+        public void OnPurchaseLinkClicked()
+        {
+            Application.OpenURL("https://play.google.com/store/apps/details?id=com.Games4Vidiots.Phazed&hl=en_US");
+        }
         #endregion
 
         #region Public Methods
@@ -223,6 +244,11 @@ namespace Assets.Scripts
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        static public bool LevelActiveInDemo(int levelNumber)
+        {
+            return Instance._levels[levelNumber - 1].ActiveInDemo;
+        }
         #endregion
 
         #endregion
@@ -260,10 +286,33 @@ namespace Assets.Scripts
         private void Player_OnLevelComplete(PlayerController playerController)
         {
             CheckLevelUnlocked(_currentLevel);
-            Instance._gameScene.SetActive(false);
-            Instance._levelEndedCanvas.SetActive(true);
+            Instance._gameScene.SetActive(false);            
             Instance._levelFailedScreen.SetActive(false);
-            Instance._levelSuccededScreen.SetActive(true);
+            if (_isDemo)
+            {
+                _currentLevel++;
+                if (_currentLevel >= _highestLevelInDemo)
+                {
+                    _fullVersionCanvas.SetActive(true);
+                }
+                else
+                {
+                    Instance._levelSelectCanvas.SetActive(true);
+                    GenerateLevelSelectButtons();
+
+                    if (_currentLevel >= _saveData.LastLevelUnlocked)
+                    {
+                        _saveData.LastLevelUnlocked = _currentLevel;
+                        FileIOWrapper.SaveGameToLocalStore(_saveData);
+                    }
+                    _levelSelectPool.ForEach(l => l.Setup(l.LevelNumber, _saveData.LastLevelUnlocked));
+                }                
+            }
+            else
+            {
+                Instance._levelEndedCanvas.SetActive(true);
+            }
+            
             ColliderManager.DisableColliders();
         }
 

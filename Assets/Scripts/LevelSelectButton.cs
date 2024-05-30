@@ -1,55 +1,76 @@
 ﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-
-public class LevelSelectButton : MonoBehaviour
+namespace Assets.Scripts
 {
-
-    [SerializeField]
-    private CanvasGroup _levelButton = null;
-    [SerializeField]
-    private CanvasGroup _lockedCanvasGroup = null;
-    [SerializeField]
-    private CanvasGroup _levelCanvasGroup = null;
-    [SerializeField]
-    private TextMeshProUGUI _levelNumberDisplay = null;
-
-    public int LevelNumber { get { return _levelNumber; } }
-    private int _levelNumber;
-    private bool _isUnLocked;
-
-    public delegate void LevelSelectEvent(LevelSelectButton levelSelectButton);
-    public event LevelSelectEvent OnLevelClickedCallback;
-
-    public void Setup(int levelNumber, int lastLevelUnlocked)
+    public class LevelSelectButton : MonoBehaviour
     {
-        gameObject.SetActive(true);
-        _levelNumber = levelNumber;
-        _isUnLocked = _levelNumber <= lastLevelUnlocked;
+        #region Fields, Properties
+        [SerializeField]
+        private Image _levelButtonImage = null;
+        [SerializeField]
+        private CanvasGroup _levelButton = null;
+        [SerializeField]
+        private CanvasGroup _lockedCanvasGroup = null;
+        [SerializeField]
+        private CanvasGroup _levelCanvasGroup = null;
+        [SerializeField]
+        private TextMeshProUGUI _levelNumberDisplay = null;
 
-        SetDisplay();
-    }
+        public int LevelNumber { get { return _levelNumber; } }
+        private int _levelNumber;
+        private bool _isUnLocked;
+        #endregion Fields, Properties (end)
 
-    public void OnLevelClicked()
-    {
-        if(_isUnLocked)
-            OnLevelClickedCallback?.Invoke(this);
-    }
+        #region Delegates, Events
+        public delegate void LevelSelectEvent(LevelSelectButton levelSelectButton);
+        public event LevelSelectEvent OnLevelClickedCallback;
+        #endregion Delegates, Events (end)
 
-    private void SetDisplay()
-    {
-        if (_isUnLocked)
+        #region Methods
+        public void Setup(int levelNumber, int lastLevelUnlocked)
         {
-            _lockedCanvasGroup.alpha = 0;
-            _levelCanvasGroup.alpha = 1;
-            _levelNumberDisplay.text = _levelNumber.ToString();
-        }
-        else
-        {
-            _lockedCanvasGroup.alpha = 1;
-            _levelCanvasGroup.alpha = 0;
+            gameObject.SetActive(true);
+            _levelNumber = levelNumber;
+            var tempColor = _levelButtonImage.color;
+            
+            if (GameManager.IsDemo)
+            {
+                _isUnLocked = _levelNumber <= lastLevelUnlocked && GameManager.LevelActiveInDemo(_levelNumber);
+                tempColor.a = GameManager.LevelActiveInDemo(_levelNumber) ? 1f : .25f;
+            }
+            else
+            {
+                _isUnLocked = _levelNumber <= lastLevelUnlocked;
+                tempColor.a = 1f;                             
+            }
+
+            _levelButtonImage.color = tempColor;
+            SetDisplay();
         }
 
-        _levelButton.alpha = _isUnLocked ? 1f : .75f;
+        public void OnLevelClicked()
+        {
+            if (_isUnLocked)
+                OnLevelClickedCallback?.Invoke(this);
+        }
+
+        private void SetDisplay()
+        {
+            if (_isUnLocked)
+            {
+                _lockedCanvasGroup.alpha = 0;
+                _levelCanvasGroup.alpha = 1;
+                _levelNumberDisplay.text = _levelNumber.ToString();
+            }
+            else
+            {
+                _lockedCanvasGroup.alpha = 1;
+                _levelCanvasGroup.alpha = 0;
+            }
+
+            _levelButton.alpha = _isUnLocked ? 1f : .75f;
+        }
+        #endregion Methods (end)
     }
 }

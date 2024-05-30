@@ -8,7 +8,7 @@
 
     public class AnimateUtility : MonoBehaviour
     {
-        #region Properties
+        #region Fields, Properties
         /// <summary>
         /// This is the default ease function we use for these animations.
         /// </summary>
@@ -16,23 +16,24 @@
 
         private static AnimateUtility _instance = null;
         public static AnimateUtility Instance { get { return _instance; } }
-        #endregion Properties (end)
-
-        public delegate void AnimateUtilityEvent();
+        #endregion Fields, Properties (end)
         
+        #region Delegates, Events
+        public delegate void AnimateUtilityEvent();
+        #endregion Delegates, Events (end)
 
         #region Initialization
         protected void Awake()
-        {
-            if (_instance != null && _instance != this)
             {
-                Destroy(this.gameObject);
-            }
-            else
-            {
-                _instance = this;
-            }
-        _cubicInOut = Ease.GetDelegate(EaseEquation.Cubic, EaseType.EaseInOut);
+                if (_instance != null && _instance != this)
+                {
+                    Destroy(this.gameObject);
+                }
+                else
+                {
+                    _instance = this;
+                }
+            _cubicInOut = Ease.GetDelegate(EaseEquation.Cubic, EaseType.EaseInOut);
         }
         #endregion Initialization (end)
        

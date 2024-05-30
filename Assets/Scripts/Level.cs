@@ -8,6 +8,7 @@ public class Level : MonoBehaviour {
 
     [SerializeField]
     private AudioSource _levelMusic;
+
     public Vector2 StartLocation
     {
         get { return _levelStartPosition.transform.position; }
@@ -27,6 +28,10 @@ public class Level : MonoBehaviour {
 
     [SerializeField]
     private TutorialManager _tutorialManager = null;
+
+    [SerializeField]
+    private bool _activeInDemo = false;
+    public bool ActiveInDemo { get { return _activeInDemo; } }
 
     private List<PlatformBase> _whitePlatforms = new List<PlatformBase>();
     private List<PlatformBase> _blackPlatforms = new List<PlatformBase>();
@@ -63,6 +68,7 @@ public class Level : MonoBehaviour {
         LevelDisplay.Instance.SetLevelDisplay(_levelNumber);
         TogglePlatforms(GameManager.CurrentPhase);
         ToggleSpikes(GameManager.CurrentPhase);
+        _levelMusic.volume = _gameManager.MusicVolume;
         if (HasTutorial)
             _tutorialManager.Setup(_tutorialContent, this);
         else{
@@ -122,6 +128,4 @@ public class Level : MonoBehaviour {
     
     #endregion
     #endregion
-
-    
 }

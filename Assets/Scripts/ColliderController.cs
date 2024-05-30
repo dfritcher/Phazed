@@ -2,6 +2,7 @@
 
 public class ColliderController : MonoBehaviour
 {
+    #region Fields, Properties
     [SerializeField]
     private Transform _followTarget = null;
 
@@ -12,7 +13,9 @@ public class ColliderController : MonoBehaviour
     private float _yOffset = 0f;
 
     private float _colliderAdjustment;
+    #endregion Fields, Properties (end)
 
+    #region Methods
     private void FixedUpdate()
     {
         transform.position = new Vector3(_cameraFollow.transform.position.x - 10f,_cameraFollow.transform.position.y + _yOffset, transform.position.z);
@@ -37,4 +40,5 @@ public class ColliderController : MonoBehaviour
             _cameraFollow.CameraTargetPos = new Vector3(_followTarget.position.x, _followTarget.position.y - 2f, _followTarget.position.z);
         }
     }
+    #endregion Methods (end)
 }

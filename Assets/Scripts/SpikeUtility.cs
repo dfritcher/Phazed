@@ -33,6 +33,4 @@ public class SpikeUtility {
         }
     }
     private static Color _whiteFadedSpike;
-
-
 }

@@ -85,5 +85,4 @@ public class TitleAnimationController : MonoBehaviour
     }
     #endregion Unity Hooks (end)
     #endregion Methods (end)
-    
 }

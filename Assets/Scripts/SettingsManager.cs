@@ -8,6 +8,7 @@ namespace Assets.Scripts
 {
     public class SettingsManager : MonoBehaviour
     {
+        #region Fields, Properties
         [SerializeField]
         private Image _audioOn = null;
 
@@ -37,7 +38,9 @@ namespace Assets.Scripts
         
         private static bool _playAudio = false;
         private Difficulty _difficulty;
+        #endregion Fields, Properties (end)
 
+        #region Methods
 
         public void OnEnable()
         {
@@ -54,7 +57,6 @@ namespace Assets.Scripts
             _audioOff.gameObject.SetActive(!_playAudio);
             _gameAudioListener.enabled = _playAudio;
         }
-
         
         public void HomeButtonClicked()
         {
@@ -116,5 +118,6 @@ namespace Assets.Scripts
         {
             GameManager.UpdateSettings(_playAudio, _difficulty);
         }
+        #endregion Methods (end)
     }
 }
