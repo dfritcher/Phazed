@@ -293,6 +293,7 @@ namespace Assets.Scripts
             CheckLevelUnlocked(_currentLevel);
             Instance._gameScene.SetActive(false);            
             Instance._levelFailedScreen.SetActive(false);
+            Instance._levelSuccededScreen.SetActive(true);
             if (_isDemo)
             {
                 _currentLevel++;
