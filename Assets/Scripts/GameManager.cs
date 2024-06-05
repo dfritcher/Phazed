@@ -31,6 +31,9 @@ namespace Assets.Scripts
         [SerializeField]
         private TextMeshProUGUI _appVersion = null;
 
+        [SerializeField]
+        private GameObject _keyboardInstructions = null;
+
         [Header("Game Related"), Space(8)]
         [SerializeField]
         private bool _isDemo = false;
@@ -156,8 +159,10 @@ namespace Assets.Scripts
         {
             ColliderManager.ResetColliderPositions();
             _titleCanvas.SetActive(false);
+#if UNITY_WEBGL || UNITY_EDITOR
+            _keyboardInstructions.SetActive(true);
+#endif
             _levelSelectCanvas.SetActive(true);
-
             GenerateLevelSelectButtons();
         }
 
